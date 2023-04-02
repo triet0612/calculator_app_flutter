@@ -14,26 +14,29 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: [
-        DecoratedBox(
-          decoration: BoxDecoration(
-              color: Colors.black, borderRadius: BorderRadius.circular(30)),
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-            reverse: true,
-            scrollDirection: Axis.horizontal,
-            child: Container(
-              height: 150,
-              padding: const EdgeInsets.all(0),
-              child: Text(
-                _mathExpression,
-                style: GoogleFonts.ubuntu(color: Colors.white, fontSize: 60),
-                softWrap: true,
-              ),
-            ),
+      children: [expressionbox()],
+    );
+  }
+
+  Widget expressionbox() {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+          color: Colors.black, borderRadius: BorderRadius.circular(30)),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+        reverse: true,
+        scrollDirection: Axis.horizontal,
+        child: Container(
+          alignment: Alignment.center,
+          height: 150,
+          padding: const EdgeInsets.all(0),
+          child: Text(
+            _mathExpression,
+            style: GoogleFonts.ubuntu(color: Colors.amber, fontSize: 60),
+            softWrap: true,
           ),
         ),
-      ],
+      ),
     );
   }
 }
