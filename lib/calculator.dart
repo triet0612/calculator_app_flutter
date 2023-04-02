@@ -10,11 +10,12 @@ class CalculatorWidget extends StatefulWidget {
 
 class _CalculatorWidgetState extends State<CalculatorWidget> {
   String _mathExpression = '';
+  String _prevExpression = '';
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: [expressionbox()],
+      children: [expressionbox(), mathInput()],
     );
   }
 
@@ -38,5 +39,125 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
         ),
       ),
     );
+  }
+
+  Widget mathInputButton(String type, Color color) {
+    double font = (type == "DEL" || type == "AC")
+        ? 25
+        : (type == "Prev")
+            ? 30
+            : 40;
+
+    return Container(
+      padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+      height: 80,
+      child: TextButton(
+        onPressed: () {
+          setState(() {
+            switch (type) {
+              case "DEL":
+                if (_mathExpression.length > 2) {
+                  var listChar = _mathExpression.split('');
+                  listChar
+                    ..removeLast()
+                    ..removeLast();
+                  _mathExpression = listChar.join('');
+                } else {
+                  _mathExpression = "";
+                }
+                break;
+              case "AC":
+                _mathExpression = "";
+                break;
+              case "\u00F7" || "\u00D7" || "\u2212" || "+" || "^":
+                _mathExpression += " $type ";
+              case "=":
+                _prevExpression = _mathExpression;
+                break;
+              case "Prev":
+                _mathExpression = _prevExpression;
+                break;
+              default:
+                _mathExpression += type;
+            }
+          });
+        },
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.black),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(60),
+                    side: const BorderSide(
+                        color: Colors.amberAccent, width: 3.0)))),
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(
+            type,
+            style: GoogleFonts.ubuntu(
+                color: color, fontSize: font, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget mathInput() {
+    const color = Color.fromARGB(255, 7, 255, 243);
+    return Column(children: [
+      Container(
+        padding: const EdgeInsets.fromLTRB(20, 20, 30, 0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            mathInputButton("Prev", Colors.amber),
+            mathInputButton("DEL", Colors.amber)
+          ],
+        ),
+      ),
+      Container(
+        padding: const EdgeInsets.fromLTRB(20, 0, 30, 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              children: [
+                mathInputButton("AC", Colors.deepOrangeAccent),
+                mathInputButton("7", color),
+                mathInputButton("4", color),
+                mathInputButton("1", color),
+                mathInputButton("^", color),
+              ],
+            ),
+            Column(
+              children: [
+                mathInputButton("(", color),
+                mathInputButton("8", color),
+                mathInputButton("5", color),
+                mathInputButton("2", color),
+                mathInputButton("0", color),
+              ],
+            ),
+            Column(
+              children: [
+                mathInputButton(")", color),
+                mathInputButton("9", color),
+                mathInputButton("6", color),
+                mathInputButton("3", color),
+                mathInputButton(".", color),
+              ],
+            ),
+            Column(
+              children: [
+                mathInputButton("\u00F7", color), // /
+                mathInputButton("\u00D7", color), // x
+                mathInputButton("\u2212", color), // -
+                mathInputButton("+", color),
+                mathInputButton("=", color),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ]);
   }
 }
