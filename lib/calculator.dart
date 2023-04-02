@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'calculate_expression.dart';
 
 class CalculatorWidget extends StatefulWidget {
   const CalculatorWidget({super.key});
@@ -56,11 +57,9 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
           setState(() {
             switch (type) {
               case "DEL":
-                if (_mathExpression.length > 2) {
+                if (_mathExpression.isNotEmpty) {
                   var listChar = _mathExpression.split('');
-                  listChar
-                    ..removeLast()
-                    ..removeLast();
+                  listChar.removeLast();
                   _mathExpression = listChar.join('');
                 } else {
                   _mathExpression = "";
@@ -73,6 +72,10 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
                 _mathExpression += " $type ";
               case "=":
                 _prevExpression = _mathExpression;
+                _mathExpression = calculateRPN(_mathExpression
+                    .replaceAll('\u00F7', '/')
+                    .replaceAll('\u00D7', '*')
+                    .replaceAll('\u2212', '-'));
                 break;
               case "Prev":
                 _mathExpression = _prevExpression;
