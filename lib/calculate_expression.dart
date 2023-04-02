@@ -59,11 +59,13 @@ String calculateRPN(String expression) {
   var resultStack = [];
   for (int i = 0; i < expressionStack.length; i++) {
     String token = expressionStack[i];
+
     if (RegExp(r"[\+\-\*\/\^]").hasMatch(token) == false) {
       resultStack.add(double.parse(token));
     } else {
+      print(resultStack);
       var rhs = resultStack.removeLast();
-      var lhs = resultStack.removeLast();
+      var lhs = resultStack.isNotEmpty ? resultStack.removeLast() : 0;
       switch (token) {
         case ('+'):
           resultStack.add(lhs + rhs);
@@ -78,9 +80,12 @@ String calculateRPN(String expression) {
           resultStack.add(lhs / rhs);
           break;
         case ('^'):
+          print(12);
           if (i < expressionStack.length - 1) {
             if (expressionStack[i + 1] == '^') {
               resultStack.add(lhs * rhs);
+            } else {
+              resultStack.add(pow(lhs, rhs));
             }
           } else {
             resultStack.add(pow(lhs, rhs));
@@ -93,4 +98,8 @@ String calculateRPN(String expression) {
     }
   }
   return resultStack.removeLast().toString();
+}
+
+void main() {
+  print(calculateRPN(" - 1 ^ 2"));
 }

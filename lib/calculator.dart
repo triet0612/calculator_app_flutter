@@ -44,15 +44,16 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
 
   Widget mathInputButton(String type, Color color) {
     double font = (type == "DEL" || type == "AC")
-        ? 25
+        ? 22
         : (type == "Prev")
-            ? 30
+            ? 19
             : 40;
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-      height: 80,
-      child: TextButton(
+      padding: const EdgeInsets.fromLTRB(2, 2, 2, 2),
+      width: MediaQuery.of(context).size.width / 5,
+      height: MediaQuery.of(context).size.height / 9.5,
+      child: MaterialButton(
         onPressed: () {
           setState(() {
             switch (type) {
@@ -71,6 +72,7 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
               case "\u00F7" || "\u00D7" || "\u2212" || "+" || "^":
                 _mathExpression += " $type ";
               case "=":
+                _mathExpression = _mathExpression.trim();
                 _prevExpression = _mathExpression;
                 _mathExpression = calculateRPN(_mathExpression
                     .replaceAll('\u00F7', '/')
@@ -82,16 +84,13 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
                 break;
               default:
                 _mathExpression += type;
+                break;
             }
           });
         },
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.black),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(60),
-                    side: const BorderSide(
-                        color: Colors.amberAccent, width: 3.0)))),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            side: const BorderSide(color: Colors.amber, width: 3)),
         child: Align(
           alignment: Alignment.center,
           child: Text(
@@ -122,7 +121,8 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
+            Flex(
+              direction: Axis.vertical,
               children: [
                 mathInputButton("AC", Colors.deepOrangeAccent),
                 mathInputButton("7", color),
@@ -131,7 +131,8 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
                 mathInputButton("^", color),
               ],
             ),
-            Column(
+            Flex(
+              direction: Axis.vertical,
               children: [
                 mathInputButton("(", color),
                 mathInputButton("8", color),
@@ -140,7 +141,8 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
                 mathInputButton("0", color),
               ],
             ),
-            Column(
+            Flex(
+              direction: Axis.vertical,
               children: [
                 mathInputButton(")", color),
                 mathInputButton("9", color),
@@ -149,7 +151,8 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
                 mathInputButton(".", color),
               ],
             ),
-            Column(
+            Flex(
+              direction: Axis.vertical,
               children: [
                 mathInputButton("\u00F7", color), // /
                 mathInputButton("\u00D7", color), // x
