@@ -1,3 +1,3 @@
 # calculator_app_flutter
 
-A new Flutter project.
+Sample of web deploy at: https://triet0612.github.io/flutter-calculator-web/
