@@ -108,7 +108,7 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
     const color = Color.fromARGB(255, 7, 255, 243);
     return Column(children: [
       Container(
-        padding: const EdgeInsets.fromLTRB(20, 20, 30, 0),
+        padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -118,7 +118,7 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
         ),
       ),
       Container(
-        padding: const EdgeInsets.fromLTRB(20, 0, 30, 20),
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
